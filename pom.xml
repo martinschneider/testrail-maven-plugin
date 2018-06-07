@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.martinschneider</groupId>
   <artifactId>testrail-maven-plugin</artifactId>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <name>Maven plugin to create test runs on Testrails</name>
   <description>Simple Maven plugin to create and close test runs on Testrail (http://www.gurock.com/testrail)</description>
   <packaging>maven-plugin</packaging>
