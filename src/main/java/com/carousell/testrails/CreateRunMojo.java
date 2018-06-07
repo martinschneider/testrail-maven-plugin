@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Mojo for creating a Testrail run */
-@Mojo(name = "createrun")
+@Mojo(name = "create-run")
 public class CreateRunMojo extends AbstractMojo {
 
   private static final Logger LOG = LoggerFactory.getLogger(CreateRunMojo.class);
@@ -41,14 +41,14 @@ public class CreateRunMojo extends AbstractMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
     LOG.info("Creating testrail run");
     TestRail testRail =
-        TestRail.builder(url, username, password).applicationName("playground").build();
+        TestRail.builder(url, username, password).build();
     Run run =
         testRail
             .runs()
             .add(projectId, new Run().setSuiteId(suiteId).setName(testRunName))
             .execute();
 
-    LOG.info("Setting testRunId {} as Maven property", run.getId());
-    project.getProperties().put("testRunId", run.getId());
+    LOG.info("Setting runId {} as Maven property", run.getId());
+    project.getProperties().put("runId", new Integer(run.getId()).toString());
   }
 }

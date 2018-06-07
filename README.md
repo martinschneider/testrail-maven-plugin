@@ -1,3 +1,6 @@
+[<img src="https://travis-ci.com/martinschneider/testrail-maven-plugin.svg?branch=master" height="41" alt="Build status"/>](https://travis-ci.com/martinschneider/testrail-maven-plugin)
+[<img src="https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-1.svg" height="41" alt="Buy me a coffee"/>](https://www.buymeacoffee.com/mschneider)
+
 # testrail-maven-plugin
 
 This plugin allows creating and closing testruns on a [Testrail](http://www.gurock.com/testrail) project. It can be used as a wrapper around the execution of automated tests which will update the created testrun.
@@ -5,30 +8,40 @@ This plugin allows creating and closing testruns on a [Testrail](http://www.guro
 ## Configuration
 
 ```
+<?xml version="1.0" encoding="UTF-8"?>
 <build>
   <plugins>
     <plugin>
       <groupId>io.github.martinschneider</groupId>
       <artifactId>testrail-maven-plugin</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
       <configuration>
-        <url>https://demo.testrail.io</url>
+        <url>http://demo.testrail.io</url>
         <username>user</username>
         <password>pw</password>
-        <runId>${runId}</runId>
       </configuration>
       <executions>
         <execution>
-          <id>testrail</id>
+          <id>testrail-create</id>
           <phase>initialize</phase>
           <goals>
-            <goal>createrun</goal>
+            <goal>create-run</goal>
           </goals>
           <configuration>
             <projectId>${projectId}</projectId>
             <suiteId>${suiteId}</suiteId>
             <planId>${planId}</planId>
             <testRunName>${testRunName}</testRunName>
+          </configuration>
+        </execution>
+        <execution>
+          <id>testrail-close</id>
+          <phase>verify</phase>
+          <goals>
+            <goal>complete-run</goal>
+          </goals>
+          <configuration>
+            <runId>${runId}</runId>
           </configuration>
         </execution>
       </executions>
@@ -39,10 +52,11 @@ This plugin allows creating and closing testruns on a [Testrail](http://www.guro
 
 ## Usage
 
-### Create a testrun
-`mvn initialize`
+`mvn verify -DprojectId=1 -DsuiteId=2`
 
-This will create a testrun and set its id as a parameter for subsequent Maven plugins. For example, you can use this to update the test run with the results of your test executions.
+This will create a testrun (in the project with id 1 under the test suite with id 2) and set its id as a parameter for subsequent Maven plugins (in the `initialize` phase of the Maven lifecycle). For example, you can use this to update the test run with the results of your test executions (in the `test` phase). Finally (in the `verify` phase), the test run is closed.
 
-### Close a testrun
-`mvn testrail:closerun -DrunId=123`
+## Contact
+Martin Schneider, mart.schneider@gmail.com
+
+[![Buy me a coffee](https://www.buymeacoffee.com/assets/img/guidelines/download-assets-1.svg)](https://www.buymeacoffee.com/mschneider)
